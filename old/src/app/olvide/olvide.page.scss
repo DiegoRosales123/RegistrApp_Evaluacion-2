@@ -1,0 +1,90 @@
+.flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  
+    img {
+      width: 60%;
+      display: block;
+      align-self: center;
+      margin-bottom: 20px;
+    }
+  
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+      }
+      25% {
+        opacity: 1;
+      }
+      75% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+  
+    .verification-message {
+      animation: fadeInOut 5s linear;
+      color: green; /* Cambia el color a verde */
+    }
+  }
+  
+  .img-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  ion-button {
+    --background: #F82C2C;
+    color: #ffffff;
+    width: 100%;
+  }
+  
+  ion-item {
+    --margin: 15px 0;
+  }
+  
+  .margin {
+    margin: 15px;
+  }
+  
+  .forgot {
+    margin-top: 20px;
+  }
+  
+  .footer {
+    position: absolute;
+    bottom: 0;
+    span {
+      color: #F82C2C;
+      font-weight: 700;
+    }
+  }
+  
+  .empty-fields {
+    color: red; /* Cambia el color a rojo */
+  }
+  
+  strong {
+    color: red; /* Cambia el color del texto dentro de <strong> a rojo */
+  }
+
+  .instructions {
+    font-size: 16px; /* Tamaño de fuente */
+    color: #ffffff; /* Color del texto */
+    margin-top: 10px; /* Espacio superior */
+    background-color: #2e2e2e; /* Fondo gris suave */
+    padding: 10px; /* Espaciado interno */
+    font-family: 'Nombre de la fuente', sans-serif; /* Reemplaza 'Nombre de la fuente' con tu tipo de fuente deseado */
+  }
+  .green-text {
+    color: green;
+  }
+  
+  

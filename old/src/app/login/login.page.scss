@@ -1,0 +1,112 @@
+.flex{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    img{
+        width: 60%;
+        display: block;
+        align-self: center;
+        margin-bottom: 20px;
+    }
+    @keyframes fadeInOut {
+        0% {
+          opacity: 0;
+        }
+        25% {
+          opacity: 1;
+        }
+        75% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+      
+      .verification-message {
+        animation: fadeInOut 5s linear;
+        color: green; /* Cambia el color a verde */
+      }
+}
+.dark-mode ion-button.btn-login, .dark-mode ion-button.btn-register {
+  --background: #F82C2C; /* Color de fondo en modo oscuro */
+  color: #fff; /* Color de texto en modo oscuro */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Agrega un efecto de sombra en modo oscuro */
+}
+
+/* Resto de tus estilos en modo oscuro... */
+
+.navigation-arrows {
+  position: relative;
+}
+
+.arrow-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.arrow-button.left {
+  color: #ff0000;
+  left: 10px;
+}
+
+.arrow-button.right {
+  right: 10px;
+  color: #f80000;
+}
+
+
+.img-flex{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+ion-button{
+    --background: #F82C2C;
+    color: #ffffff;
+    width: 100%;
+}
+ion-item{
+    --margin:15px 0;
+}
+.margin{
+    margin: 15px;
+}
+.forgot{
+    margin-top: 20px;
+    
+}
+.footer{
+    position: absolute;
+    bottom: 0;
+    span{
+        color: #F82C2C;
+        font-weight: 700;
+    }
+}
+
+
+.empty-fields {
+    color: red; /* Cambia el color a rojo */
+  }
+
+  .welcome-message {
+    text-align: center; /* Centra el texto horizontalmente */
+    margin-top: 20px; /* Agrega un margen superior para separarlo del formulario */
+  }
+  
+  .welcome-message p {
+    font-size: 1.5rem; /* Tamaño de fuente deseado */
+  }
+  

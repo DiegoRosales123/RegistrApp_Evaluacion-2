@@ -1,0 +1,55 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="navigateLeft()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Recupera tu Contraseña</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+  <div class="ion-padding">
+    <div class="flex">
+      <div class="img-flex">
+        <img src="../../assets/contraperdida.png" />
+      </div>
+      <div>
+        <p class="instructions">Introduce tu Nombre y Apellido para Recuperar tu Contraseña</p>
+      
+        <ion-item fill="outline">
+          <ion-label position="floating">Nombre y Apellido</ion-label>
+          <!-- Vincula el valor del ion-input con la propiedad 'username' del componente -->
+          <ion-input [(ngModel)]="username" type="text"></ion-input>
+        </ion-item>
+        <div class="margin"></div>
+        <ion-button class="btn-login" (click)="recoverPassword()" [disabled]="searchingCredentials">
+          <!-- Usar [disabled] para evitar hacer clic mientras se busca -->
+          Recuperar Contraseña
+        </ion-button>
+
+        <!-- Muestra "Buscando Credenciales" mientras se realiza la búsqueda -->
+        <div *ngIf="searchingCredentials" class="searching-credentials green-text">
+          <strong>Buscando Credenciales...</strong>
+        </div>
+        
+
+        <!-- Agrega un elemento para mostrar la contraseña y el correo recuperados -->
+        <div *ngIf="recoveredPassword" class="recovered-password">
+          <strong>Tu contraseña recuperada es:</strong> {{ recoveredPassword }}
+        </div>
+        <div *ngIf="recoveredEmail" class="recovered-email">
+          <strong>Tu correo es:</strong> {{ recoveredEmail }}
+        </div>
+        <div *ngIf="userNotFound" class="user-not-found">
+          <strong>No se encontró tu usuario.</strong>
+        </div>
+      </div>
+      <div class="footer">
+        <span routerLink="/login">Iniciar Sesion</span>
+      </div>
+    </div>
+  </div>
+</ion-content>
