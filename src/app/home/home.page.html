@@ -1,0 +1,32 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start"> <!-- Alinea a la izquierda -->
+      <ion-button (click)="navigateLeft()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Bienvenido {{ usernameFromLocalStorage }}
+    </ion-title>
+    <ion-buttons slot="end"> <!-- Alinea a la derecha -->
+      <ion-button (click)="navigateRight()">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <!-- Agrega un mensaje con estilo responsivo -->
+    <p class="scan-instructions">
+      Por favor, presiona donde dice <strong><span class="red-text">ESCANEAR CODIGO QR</span></strong> para escanear tu código
+    </p>
+    
+    <ion-button expand="full" routerLink="/scanner">SCANEAR CODIGO QR</ion-button>
+
+    <img src="assets/qrejemplo.png" alt="QR Ejemplo" class="responsive-image" />
+
+    <ion-button expand="full" routerLink="/app">GENERAR QR DE PRUEBA</ion-button>
+  </div>
+</ion-content>

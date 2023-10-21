@@ -1,0 +1,77 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="navigateLeft()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Registro de Usuario</ion-title>
+  </ion-toolbar>
+
+  
+</ion-header>
+
+
+<ion-content class="ion-padding dark-mode">
+  <div class="flex">
+    <div class="img-flex">
+      <img src="../../assets/REGISTRARSE.png" />
+      
+    </div>
+    <div>
+
+      <ion-content>
+        <ion-button (click)="tomarSelfie()">Tomar Foto</ion-button>
+        <video #videoElement autoplay playsinline *ngIf="stream" id="video"></video>
+        <canvas #canvasElement></canvas>
+        <video #videoElement></video>
+      </ion-content>
+      <ion-item>
+        <ion-label position="floating">Correo Electrónico</ion-label>
+        <ion-input [(ngModel)]="email" type="email" fill="outline"></ion-input>
+      </ion-item>
+      <div class="margin"></div>
+      <ion-item>
+        <ion-label position="floating">Nombre y Apellido</ion-label>
+        <ion-input [(ngModel)]="username" type="text" fill="outline"></ion-input>
+      </ion-item>
+      <!-- campos para Nombre, Apellido y Rut -->
+      <div class="margin"></div>
+      <ion-item>
+        <ion-label position="floating">Rut</ion-label>
+        <ion-input [(ngModel)]="rut" type="text" fill="outline"></ion-input>
+      </ion-item>
+      <div class="margin"></div>
+      <ion-item>
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input [(ngModel)]="password" type="password" fill="outline"></ion-input>
+      </ion-item>
+      <div class="margin"></div>
+      <ion-item>
+        <ion-label position="floating">Confirmar Contraseña</ion-label>
+        <ion-input [(ngModel)]="confirmPassword" type="password" fill="outline"></ion-input>
+      </ion-item>
+      <div class="margin"></div>
+      <ion-item>
+        <ion-label position="floating">Ciudad</ion-label>
+        <ion-select [(ngModel)]="selectedCity" (ionChange)="loadCommunes(selectedCity)">
+          <ion-select-option *ngFor="let city of cities" [value]="city">{{ city.name }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Comuna</ion-label>
+        <ion-select [(ngModel)]="selectedCommune">
+          <ion-select-option *ngFor="let commune of communes" [value]="commune">{{ commune.name }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div class="margin"></div>
+      <div class="margin"></div>
+      <p class="error-message" *ngIf="showErrorMessage">Error, debe rellenar todos los campos</p>
+      <ion-button class="btn-login" (click)="register()">REGISTRARSE</ion-button>
+    </div>
+    <div class="footer">
+      ¿Ya tienes una cuenta? <span routerLink="/login">INICIAR SESIÓN</span>
+      <img [src]="fotoURL" alt="Foto tomada" *ngIf="fotoURL" />
+    </div>
+  </div>
+</ion-content>
