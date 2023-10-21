@@ -5,16 +5,9 @@ ion-title {
   
   /* Estilos para el video */
   #videoElement {
-    width: 50%;
-    max-width: 60%;
-    margin: 0 auto;
-    display: block;
-    border: 1px solid #ccc; /* Agregar un borde para dar un efecto de relieve */
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Agregar una sombra */
-  }
-
-  .bold-text {
-    font-weight: bold;
+    width: 100%; /* Hacer que el video ocupe todo el ancho disponible */
+    max-width: 100%; /* Establecer un ancho máximo */
+    height: auto; /* Mantener la proporción de aspecto original */
   }
   
   /* Estilos para el contenedor del código QR escaneado */

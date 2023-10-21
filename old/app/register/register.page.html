@@ -20,12 +20,12 @@
     </div>
     <div>
 
-
+      <ion-content>
         <ion-button (click)="tomarSelfie()">Tomar Foto</ion-button>
-        <video #videoElement [style.display]="'none'" autoplay playsinline *ngIf="stream" id="video"></video>
-        <canvas #canvasElement [style.display]="'none'"></canvas>
-        <video #videoElement [style.display]="'none'"></video>
-
+        <video #videoElement autoplay playsinline *ngIf="stream" id="video"></video>
+        <canvas #canvasElement></canvas>
+        <video #videoElement></video>
+      </ion-content>
       <ion-item>
         <ion-label position="floating">Correo Electrónico</ion-label>
         <ion-input [(ngModel)]="email" type="email" fill="outline"></ion-input>
@@ -71,6 +71,7 @@
     </div>
     <div class="footer">
       ¿Ya tienes una cuenta? <span routerLink="/login">INICIAR SESIÓN</span>
+      <img [src]="fotoURL" alt="Foto tomada" *ngIf="fotoURL" />
     </div>
   </div>
 </ion-content>

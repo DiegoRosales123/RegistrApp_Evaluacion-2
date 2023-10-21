@@ -1,0 +1,62 @@
+<ion-content class="ion-padding dark-mode">
+
+  <ion-buttons>
+    <ion-button (click)="navigateLeft()" [disabled]="isLeftButtonDisabled"  [color]="'dark'" >
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-button>
+    <ion-button (click)="navigateRight() " [color]="'dark'">
+      <ion-icon name="arrow-forward"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+  <div class="flex">
+
+    <div class="welcome-message">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="8" size-lg="6" size-xl="4">
+          <p>Bienvenido, por favor inicia sesion</p>
+        </ion-col>
+      </ion-row>
+    </div>
+
+
+
+    <div class="img-flex">
+      <img src="../../assets/logo.png" />
+    </div>
+    <div>
+
+      <ion-item fill="outline">
+        <ion-label position="floating">Correo Electrónico</ion-label>
+        <!-- Vincula el valor del ion-input con la propiedad 'email' del componente -->
+        <ion-input [(ngModel)]="email" type="email"></ion-input>
+      </ion-item>
+      <div class="margin"></div>
+      <!-- Vincula el valor del ion-input con la propiedad 'password' del componente -->
+      <ion-item fill="outline">
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input [(ngModel)]="password" type="password"></ion-input>
+      </ion-item>
+      <!-- Muestra el mensaje de contraseña incorrecta -->
+      <p *ngIf="incorrectPassword" class="incorrect-password">Contraseña incorrecta</p>
+      <!-- Muestra el mensaje de "Por favor, rellena todos los campos"  -->
+      <p *ngIf="fieldsEmpty" class="empty-fields">Por favor, rellena todos los campos</p>
+      <p *ngIf="verificationMessage" class="verification-message">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        {{ verificationMessage }}
+      </p>
+      <div class="margin"></div>
+
+      <ion-button class="btn-login" (click)="login()">INICIAR SESIÓN</ion-button>
+      
+    </div>
+    <!-- Perdiste la Contraseña -->
+    <div class="forgot">
+      <p><a routerLink="/olvide">¿Perdiste tu contraseña?</a></p>
+    </div>
+
+    <div class="footer">
+      No tienes Cuenta? <span routerLink="/register">REGISTRATE</span>
+    </div>
+  </div>
+</ion-content>

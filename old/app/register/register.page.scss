@@ -1,0 +1,53 @@
+.flex{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    img{
+        width: 60%;
+        display: block;
+        align-self: center;
+        margin-bottom: 20px;
+    }
+
+}
+
+
+  
+
+.img-flex{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+ion-button{
+    --background: #F82C2C;
+    color: #020202;
+    width: 100%;
+}
+ion-item{
+    --margin:15px 0;
+    color: rgb(0, 0, 0); /* Cambia el color del texto a blanco en modo oscuro */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Agrega un efecto de sombra en modo oscuro */
+    border: 1px solid #333; /* Agrega un borde oscuro en modo oscuro */
+    border-radius: 10px; /* Ajusta el radio del borde según tus preferencias */
+}
+.margin{
+    margin: 15px;
+}
+.forgot{
+    margin-top: 20px;
+}
+.footer{
+    position: absolute;
+    bottom: 0;
+    span{
+        color: #F82C2C;
+        font-weight: 700;
+    }
+}
+.error-message {
+    color: red; /* Cambia el color a rojo */
+  }

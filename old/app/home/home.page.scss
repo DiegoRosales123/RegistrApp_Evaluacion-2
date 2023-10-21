@@ -1,0 +1,13 @@
+
+
+.red-text {
+  color: red; /* Color de texto rojo */
+}
+
+.responsive-image {
+  max-width: 100%; /* Establece el ancho máximo para que la imagen sea responsive */
+  height: auto; /* Ajusta la altura automáticamente para mantener la relación de aspecto */
+  display: block; /* Evita que se apliquen márgenes no deseados */
+  margin-top: 10px; /* Agrega un margen superior para separar la imagen del botón */
+}
+
