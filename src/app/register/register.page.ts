@@ -65,36 +65,34 @@ export class RegisterPage implements OnInit {
     try {
       this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
       this.fotoTomada = true;
-  
+
       this.video = this.videoElement.nativeElement;
       this.canvas = this.canvasElement.nativeElement;
-  
+
       this.video.srcObject = this.stream;
       await this.video.play();
-  
+
       this.canvas.width = this.video.videoWidth;
       this.canvas.height = this.video.videoHeight;
-  
+
       const context = this.canvas.getContext('2d');
       if (context) {
         context.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
-  
-        //Se manteniene la base64 para la imagen nomenclatura
+
+        // Convierte el contenido del canvas a una imagen en formato Base64
         const base64Image = this.canvas.toDataURL('image/png');
-  
-        // Guardar la imagen en IndexedDB  DataService
-        const imageObject = { image: base64Image };
-        this.dataService.addUser(imageObject).then(() => {
-          console.log('Imagen guardada en IndexedDB');
-        });
-  
-        // Muestra imagen en pagina.
+
+        // Muestra la imagen en la página
         this.fotoURL = this.sanitizer.bypassSecurityTrustResourceUrl(base64Image);
+
+        // Almacena la imagen en el localStorage
+        localStorage.setItem('foto', base64Image);
+        console.log('Imagen guardada en localStorage:', base64Image);
       } else {
         console.error('No se pudo obtener el contexto 2D del canvas.');
       }
-  
-      this.changeDetector.detectChanges();
+
+      this.changeDetector.detectChanges(); // Agregado
     } catch (error) {
       console.error('Error al tomar la foto:', error);
     }
