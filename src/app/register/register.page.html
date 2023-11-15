@@ -7,57 +7,63 @@
     </ion-buttons>
     <ion-title>Registro de Usuario</ion-title>
   </ion-toolbar>
-
-  
 </ion-header>
-
 
 <ion-content class="ion-padding dark-mode">
   <div class="flex">
     <div class="img-flex">
       <img src="../../assets/REGISTRARSE.png" />
-      
     </div>
     <div>
-
-
-        <ion-button (click)="tomarSelfie()">Tomar Foto</ion-button>
-        <video #videoElement [style.display]="'none'" autoplay playsinline *ngIf="stream" id="video"></video>
-        <canvas #canvasElement [style.display]="'none'"></canvas>
-        <video #videoElement [style.display]="'none'"></video>
+      <ion-button (click)="tomarSelfie()">Tomar Foto</ion-button>
+      <video #videoElement [style.display]="'none'" autoplay playsinline *ngIf="stream" id="video"></video>
+      <canvas #canvasElement [style.display]="'none'"></canvas>
+      <video #videoElement [style.display]="'none'"></video>
 
       <ion-item>
         <ion-label position="floating">Correo Electrónico</ion-label>
         <ion-input [(ngModel)]="email" type="email" fill="outline"></ion-input>
       </ion-item>
+      <p class="error-message" *ngIf="showErrorMessage && !validateEmail(email)">
+        Error, correo electrónico no válido
+      </p>
       <div class="margin"></div>
+
       <ion-item>
         <ion-label position="floating">Nombre y Apellido</ion-label>
         <ion-input [(ngModel)]="username" type="text" fill="outline"></ion-input>
       </ion-item>
       <!-- campos para Nombre, Apellido y Rut -->
       <div class="margin"></div>
+
       <ion-item>
         <ion-label position="floating">Rut</ion-label>
         <ion-input [(ngModel)]="rut" type="text" fill="outline"></ion-input>
       </ion-item>
+      <p class="error-message" *ngIf="showErrorMessage && !validateRut(rut)">
+        RUT NO VALIDO, RECUERDA USAR PUNTOS Y GUION (-)
+      </p>
       <div class="margin"></div>
+
       <ion-item>
         <ion-label position="floating">Contraseña</ion-label>
         <ion-input [(ngModel)]="password" type="password" fill="outline"></ion-input>
       </ion-item>
       <div class="margin"></div>
+
       <ion-item>
         <ion-label position="floating">Confirmar Contraseña</ion-label>
         <ion-input [(ngModel)]="confirmPassword" type="password" fill="outline"></ion-input>
       </ion-item>
       <div class="margin"></div>
+
       <ion-item>
         <ion-label position="floating">Ciudad</ion-label>
         <ion-select [(ngModel)]="selectedCity" (ionChange)="loadCommunes(selectedCity)">
           <ion-select-option *ngFor="let city of cities" [value]="city">{{ city.name }}</ion-select-option>
         </ion-select>
       </ion-item>
+
       <ion-item>
         <ion-label position="floating">Comuna</ion-label>
         <ion-select [(ngModel)]="selectedCommune">
@@ -66,11 +72,15 @@
       </ion-item>
       <div class="margin"></div>
       <div class="margin"></div>
-      <p class="error-message" *ngIf="showErrorMessage">Error, debe rellenar todos los campos</p>
-      <ion-button class="btn-login" (click)="register()">REGISTRARSE</ion-button>
-    </div>
-    <div class="footer">
-      ¿Ya tienes una cuenta? <span routerLink="/login">INICIAR SESIÓN</span>
+
+      <p class="error-message" *ngIf="showErrorMessage">{{ errorMessage }}</p>
+
+      <div class="registration-section">
+        <ion-button class="btn-login" (click)="register()">REGISTRARSE</ion-button>
+      </div>
+      <div class="footer">
+        ¿Ya tienes una cuenta? <span routerLink="/login">INICIAR SESIÓN</span>
+      </div>
     </div>
   </div>
 </ion-content>
