@@ -21,6 +21,7 @@ export class RegisterPage implements OnInit {
   cities: { id: number; name: string }[] = [];
   communes: { id: number; name: string }[] = [];
   showErrorMessage: boolean = false;
+  errorMessage: string = '';
   fotoTomada: boolean = false;
 
   @ViewChild('videoElement', { static: false }) videoElement!: ElementRef;
@@ -64,34 +65,36 @@ export class RegisterPage implements OnInit {
     try {
       this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
       this.fotoTomada = true;
-
+  
       this.video = this.videoElement.nativeElement;
       this.canvas = this.canvasElement.nativeElement;
-
+  
       this.video.srcObject = this.stream;
       await this.video.play();
-
+  
       this.canvas.width = this.video.videoWidth;
       this.canvas.height = this.video.videoHeight;
-
+  
       const context = this.canvas.getContext('2d');
       if (context) {
         context.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
-
-        // Convierte el contenido del canvas a una imagen en formato Base64
+  
+        //Se manteniene la base64 para la imagen nomenclatura
         const base64Image = this.canvas.toDataURL('image/png');
-
-        // Muestra la imagen en la página
+  
+        // Guardar la imagen en IndexedDB  DataService
+        const imageObject = { image: base64Image };
+        this.dataService.addUser(imageObject).then(() => {
+          console.log('Imagen guardada en IndexedDB');
+        });
+  
+        // Muestra imagen en pagina.
         this.fotoURL = this.sanitizer.bypassSecurityTrustResourceUrl(base64Image);
-
-        // Almacena la imagen en el localStorage
-        localStorage.setItem('foto', base64Image);
-        console.log('Imagen guardada en localStorage:', base64Image);
       } else {
         console.error('No se pudo obtener el contexto 2D del canvas.');
       }
-
-      this.changeDetector.detectChanges(); // Agregado
+  
+      this.changeDetector.detectChanges();
     } catch (error) {
       console.error('Error al tomar la foto:', error);
     }
@@ -128,26 +131,24 @@ export class RegisterPage implements OnInit {
   }
 
   validateRut(rut: string): boolean {
-    const cleanRut = rut.replace(/[^0-9kK]/g, '');
-    if (cleanRut.length !== 8 && cleanRut.length !== 9) {
-      return false;
-    }
-
-    const rutDigits = cleanRut.substring(0, cleanRut.length - 1);
-    const verifierDigit = cleanRut.charAt(cleanRut.length - 1);
-
+    const cleanRut = rut.replace(/[^\dkK]/gi, ''); 
+    if (cleanRut.length < 3) return false;
+  
+    const rutDigits = cleanRut.slice(0, -1); // RUT
+    const verifierDigit = cleanRut.slice(-1).toUpperCase(); // Digito verificador
+  
     let sum = 0;
     let multiplier = 2;
-
+  
     for (let i = rutDigits.length - 1; i >= 0; i--) {
-      sum += parseInt(rutDigits.charAt(i)) * multiplier;
+      sum += +rutDigits.charAt(i) * multiplier;
       multiplier = multiplier === 7 ? 2 : multiplier + 1;
     }
-
+  
     const calculatedVerifier = 11 - (sum % 11);
-    const verifier = calculatedVerifier === 11 ? 0 : calculatedVerifier === 10 ? 'K' : calculatedVerifier.toString();
-
-    return verifier === verifierDigit.toUpperCase();
+    const verifier = calculatedVerifier === 11 ? '0' : calculatedVerifier === 10 ? 'K' : calculatedVerifier.toString();
+  
+    return verifier === verifierDigit;
   }
 
   register() {
@@ -158,10 +159,24 @@ export class RegisterPage implements OnInit {
       this.rut.trim() === ''
     ) {
       this.showErrorMessage = true;
+      this.errorMessage = 'Error, debe rellenar todos los campos';
     } else {
       this.showErrorMessage = false;
+      this.errorMessage = '';
 
-      if (this.validateEmail(this.email) && this.validateRut(this.rut)) {
+      const isEmailValid = this.validateEmail(this.email);
+      const isRutValid = this.validateRut(this.rut);
+
+      if (!isEmailValid || !isRutValid) {
+        this.showErrorMessage = true;
+        if (!isEmailValid && !isRutValid) {
+          this.errorMessage = 'Correo electrónico y RUT no válidos';
+        } else if (!isEmailValid) {
+          this.errorMessage = 'Correo electrónico no válido';
+        } else {
+          this.errorMessage = 'RUT no válido';
+        }
+      } else {
         if (this.password === this.confirmPassword) {
           const user = {
             email: this.email,
@@ -177,10 +192,8 @@ export class RegisterPage implements OnInit {
             this.router.navigate(['/login']);
           });
         } else {
-          console.error('Las contraseñas no coinciden');
+          this.errorMessage = 'Las contraseñas no coinciden';
         }
-      } else {
-        console.error('El correo electrónico o el RUT no son válidos');
       }
     }
   }
