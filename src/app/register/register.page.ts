@@ -21,7 +21,6 @@ export class RegisterPage implements OnInit {
   cities: { id: number; name: string }[] = [];
   communes: { id: number; name: string }[] = [];
   showErrorMessage: boolean = false;
-  errorMessage: string = '';
   fotoTomada: boolean = false;
 
   @ViewChild('videoElement', { static: false }) videoElement!: ElementRef;
@@ -129,24 +128,26 @@ export class RegisterPage implements OnInit {
   }
 
   validateRut(rut: string): boolean {
-    const cleanRut = rut.replace(/[^\dkK]/gi, ''); 
-    if (cleanRut.length < 3) return false;
-  
-    const rutDigits = cleanRut.slice(0, -1); // RUT
-    const verifierDigit = cleanRut.slice(-1).toUpperCase(); // Digito verificador
-  
+    const cleanRut = rut.replace(/[^0-9kK]/g, '');
+    if (cleanRut.length !== 8 && cleanRut.length !== 9) {
+      return false;
+    }
+
+    const rutDigits = cleanRut.substring(0, cleanRut.length - 1);
+    const verifierDigit = cleanRut.charAt(cleanRut.length - 1);
+
     let sum = 0;
     let multiplier = 2;
-  
+
     for (let i = rutDigits.length - 1; i >= 0; i--) {
-      sum += +rutDigits.charAt(i) * multiplier;
+      sum += parseInt(rutDigits.charAt(i)) * multiplier;
       multiplier = multiplier === 7 ? 2 : multiplier + 1;
     }
-  
+
     const calculatedVerifier = 11 - (sum % 11);
-    const verifier = calculatedVerifier === 11 ? '0' : calculatedVerifier === 10 ? 'K' : calculatedVerifier.toString();
-  
-    return verifier === verifierDigit;
+    const verifier = calculatedVerifier === 11 ? 0 : calculatedVerifier === 10 ? 'K' : calculatedVerifier.toString();
+
+    return verifier === verifierDigit.toUpperCase();
   }
 
   register() {
@@ -157,24 +158,10 @@ export class RegisterPage implements OnInit {
       this.rut.trim() === ''
     ) {
       this.showErrorMessage = true;
-      this.errorMessage = 'Error, debe rellenar todos los campos';
     } else {
       this.showErrorMessage = false;
-      this.errorMessage = '';
 
-      const isEmailValid = this.validateEmail(this.email);
-      const isRutValid = this.validateRut(this.rut);
-
-      if (!isEmailValid || !isRutValid) {
-        this.showErrorMessage = true;
-        if (!isEmailValid && !isRutValid) {
-          this.errorMessage = 'Correo electrónico y RUT no válidos';
-        } else if (!isEmailValid) {
-          this.errorMessage = 'Correo electrónico no válido';
-        } else {
-          this.errorMessage = 'RUT no válido';
-        }
-      } else {
+      if (this.validateEmail(this.email) && this.validateRut(this.rut)) {
         if (this.password === this.confirmPassword) {
           const user = {
             email: this.email,
@@ -190,8 +177,10 @@ export class RegisterPage implements OnInit {
             this.router.navigate(['/login']);
           });
         } else {
-          this.errorMessage = 'Las contraseñas no coinciden';
+          console.error('Las contraseñas no coinciden');
         }
+      } else {
+        console.error('El correo electrónico o el RUT no son válidos');
       }
     }
   }
