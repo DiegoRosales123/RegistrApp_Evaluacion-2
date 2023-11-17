@@ -45,7 +45,6 @@ const routes: Routes = [
   {
     path: '**',
     loadChildren: () => import('./error404/error404.module').then( m => m.Error404PageModule),
-    canActivate: [AuthGuard], // Aplica el guard a esta ruta
   },
 ];
 

@@ -21,6 +21,7 @@ export class RegisterPage implements OnInit {
   cities: { id: number; name: string }[] = [];
   communes: { id: number; name: string }[] = [];
   showErrorMessage: boolean = false;
+  errorMessage: string = '';
   fotoTomada: boolean = false;
 
   @ViewChild('videoElement', { static: false }) videoElement!: ElementRef;
@@ -122,6 +123,32 @@ export class RegisterPage implements OnInit {
     });
   }
 
+  validateEmail(email: string): boolean {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  }
+
+  validateRut(rut: string): boolean {
+    const cleanRut = rut.replace(/[^\dkK]/gi, ''); 
+    if (cleanRut.length < 3) return false;
+  
+    const rutDigits = cleanRut.slice(0, -1); // RUT
+    const verifierDigit = cleanRut.slice(-1).toUpperCase(); // Digito verificador
+  
+    let sum = 0;
+    let multiplier = 2;
+  
+    for (let i = rutDigits.length - 1; i >= 0; i--) {
+      sum += +rutDigits.charAt(i) * multiplier;
+      multiplier = multiplier === 7 ? 2 : multiplier + 1;
+    }
+  
+    const calculatedVerifier = 11 - (sum % 11);
+    const verifier = calculatedVerifier === 11 ? '0' : calculatedVerifier === 10 ? 'K' : calculatedVerifier.toString();
+  
+    return verifier === verifierDigit;
+  }
+
   register() {
     if (
       this.email.trim() === '' ||
@@ -130,25 +157,41 @@ export class RegisterPage implements OnInit {
       this.rut.trim() === ''
     ) {
       this.showErrorMessage = true;
+      this.errorMessage = 'Error, debe rellenar todos los campos';
     } else {
       this.showErrorMessage = false;
+      this.errorMessage = '';
 
-      if (this.password === this.confirmPassword) {
-        const user = {
-          email: this.email,
-          username: this.username,
-          password: this.password,
-          rut: this.rut,
-          city: this.selectedCity,
-          commune: this.selectedCommune,
-        };
+      const isEmailValid = this.validateEmail(this.email);
+      const isRutValid = this.validateRut(this.rut);
 
-        this.dataService.addUser(user).then(() => {
-          console.log('Usuario almacenado en IndexedDB:', user);
-          this.router.navigate(['/login']);
-        });
+      if (!isEmailValid || !isRutValid) {
+        this.showErrorMessage = true;
+        if (!isEmailValid && !isRutValid) {
+          this.errorMessage = 'Correo electrónico y RUT no válidos';
+        } else if (!isEmailValid) {
+          this.errorMessage = 'Correo electrónico no válido';
+        } else {
+          this.errorMessage = 'RUT no válido';
+        }
       } else {
-        console.error('Las contraseñas no coinciden');
+        if (this.password === this.confirmPassword) {
+          const user = {
+            email: this.email,
+            username: this.username,
+            password: this.password,
+            rut: this.rut,
+            city: this.selectedCity,
+            commune: this.selectedCommune,
+          };
+
+          this.dataService.addUser(user).then(() => {
+            console.log('Usuario almacenado en IndexedDB:', user);
+            this.router.navigate(['/login']);
+          });
+        } else {
+          this.errorMessage = 'Las contraseñas no coinciden';
+        }
       }
     }
   }
