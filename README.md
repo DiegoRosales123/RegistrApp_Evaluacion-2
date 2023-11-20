@@ -1,6 +1,6 @@
 # RegistrApp_Evaluacion-2
 
- * `npm insall
+ * `npm insall`
  * `npm install -g @ionic/cli`
  * `npx cap add android`
  * `npm run build`
